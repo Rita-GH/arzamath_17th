@@ -1,7 +1,18 @@
 <?php
 if(!class_exists('Post_Type_Template'))
 {
-	/**
+    /*function wptuts_scripts_with_jquery()
+    {
+        // Register the script like this for a plugin:
+        wp_register_script( 'custom-script', plugins_url( '/js/custom-script.js', __FILE__ ), array( 'jquery' ) );
+        // or
+        // Register the script like this for a theme:
+        wp_register_script( 'custom-script', get_template_directory_uri() . '/js/custom-script.js', array( 'jquery' ) );
+        // For either a plugin or a theme, you can then enqueue the script:
+        wp_enqueue_script( 'custom-script' );
+    }
+    add_action( 'wp_enqueue_scripts', 'wptuts_scripts_with_jquery' );*/
+    /**
 	 * A PostTypeTemplate class that provides 3 additional meta fields
 	 */
 	class Post_Type_Template
@@ -48,7 +59,7 @@ if(!class_exists('Post_Type_Template'))
     				'has_archive' => true,
     				'description' => __("This is a sample post type meant only to illustrate a preferred structure of plugin development"),
     				'supports' => array(
-    					'title', 'editor', 'excerpt', 
+    					'title', 'editor', 'excerpt',
     				),
     			)
     		);

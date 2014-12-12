@@ -68,3 +68,59 @@ if(class_exists('arzamath_17th'))
 	$arzamath_17th = new arzamath_17th();
 
 }
+
+add_action('admin_footer', 'my_action_javascript');
+function my_action_javascript() {
+    ?>
+    <script type="text/javascript" >
+        jQuery(document).ready(function($) {
+            //$('form').submit(function() {
+            jQuery("#btn").click(function () {
+                var post_id =$('#post_id').val();
+                var msg     ={
+                    "meta_a":$("#meta_a").val(),
+                    "meta_b":$("#meta_b").val(),
+                    "meta_c":$("#meta_c").val()
+                };
+                //var field =$('form').serialize();//jQuery.param($('#set_form').serializeArray());
+                var data = {
+                    action: 'my_action',
+                    post_id: post_id,
+                    field:   msg,
+                    dataType:'json'
+                };
+                // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+                jQuery.post(ajaxurl, data, function(response) {
+                    alert('Got this the server: ' + response);
+                });
+            });
+        });
+    </script>
+<?php
+}
+add_action('wp_ajax_my_action', 'my_action_callback');
+function my_action_callback() {
+    global $wpdb;
+    $post_id = $_POST['post_id'];
+    $field = $_POST['field'];
+    if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+    {
+        return;
+    }
+    if ( isset($_POST['field']) && !empty($_POST['field']) ){
+        $fields = '';
+        foreach ($field as $key=>$value)
+        {
+            $fields .= '|'.$key.'='.$value;
+            update_post_meta($post_id, $key, $value);
+        }
+        echo  $fields;
+    }
+    else
+    {
+        echo 'no update';
+        return;
+    }
+    //ob_clean();
+    die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+}

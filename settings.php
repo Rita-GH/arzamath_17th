@@ -78,12 +78,15 @@ if(!class_exists('arzamath_17th_Settings'))
             // Get the field name from the $args array
             $field = $args['field'];
             // Get the value of this setting
-            $value = get_option($field);
+           $value = get_option($field);
             // echo a proper input type="text"
-            echo sprintf('<select name="setting_b" id="setting_b">
-        <option value="1">Enabled</option>
-        <option value="0">Disabled</option>
-    </select>', $field, $field, $value);
+            echo sprintf('<select name="%s" id="%s" >
+
+        <option  select="selected">'.$value.'</option>
+        <option  >Enabled</option><option  >heelo</option>
+        <option  >Disabled</option>
+        <option  >none</option>
+    </select>', $field, $field,   $value  );
         } // END public function settings_field_select($args)
         /**
          * add a menu
